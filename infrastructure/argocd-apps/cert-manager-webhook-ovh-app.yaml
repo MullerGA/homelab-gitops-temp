@@ -1,0 +1,32 @@
+# Installation du webhook OVH officiel via Helm
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-webhook-ovh
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://aureq.github.io/cert-manager-webhook-ovh
+    chart: cert-manager-webhook-ovh
+    targetRevision: "0.7.4"
+    helm:
+      values: |
+        logLevel: 2
+        # Service account sera créé automatiquement
+        # RBAC sera créé automatiquement
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s 
