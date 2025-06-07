@@ -22,6 +22,9 @@ spec:
           namespace: cert-manager
           serviceAccountName: cert-manager-webhook-ovh
         
+        # Configuration du group name pour le webhook
+        groupName: acme.webhook.ovh
+        
         # RBAC permissions pour cert-manager
         rbac:
           create: true
