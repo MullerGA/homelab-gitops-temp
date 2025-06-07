@@ -22,6 +22,10 @@ spec:
         - containerPort: 2222
           name: ssh
         env:
+        - name: USER_UID
+          value: "1000"
+        - name: USER_GID
+          value: "1000"
         - name: GITEA__database__DB_TYPE
           value: "postgres"
         - name: GITEA__database__HOST
@@ -49,7 +53,7 @@ spec:
           value: "192.168.1.22:30200"
         volumeMounts:
         - name: gitea-data
-          mountPath: /var/lib/gitea
+          mountPath: /data
         resources:
           requests:
             memory: "256Mi"
