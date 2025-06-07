@@ -1,0 +1,19 @@
+# Secrets et clés privées
+*-credentials.yaml
+*.key
+*.pem
+*secret*
+
+# Fichiers temporaires
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.bak
+
+# Variables d'environnement
+.env
+.env.local
+
+# Logs
+*.log 
