@@ -18,12 +18,12 @@ spec:
             applicationKey:
               secretKeyRef:
                 name: ovh-credentials
-                key: applicationKey
+                key: OVH_APPLICATION_KEY
             applicationSecret:
               secretKeyRef:
                 name: ovh-credentials
-                key: applicationSecret
+                key: OVH_APPLICATION_SECRET
             consumerKey:
               secretKeyRef:
                 name: ovh-credentials
-                key: consumerKey 
+                key: OVH_CONSUMER_KEY 
