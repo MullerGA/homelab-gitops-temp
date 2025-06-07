@@ -2,7 +2,6 @@
 *-credentials.yaml
 *.key
 *.pem
-*secret*
 
 # Fichiers temporaires
 .DS_Store
