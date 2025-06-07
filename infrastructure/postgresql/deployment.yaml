@@ -33,6 +33,21 @@ spec:
               key: password
         - name: PGDATA
           value: "/var/lib/postgresql/data/pgdata"
+        - name: GITEA_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-gitea
+              key: database
+        - name: GITEA_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-gitea
+              key: username
+        - name: GITEA_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgresql-gitea
+              key: password
         volumeMounts:
         - name: postgresql-data
           mountPath: /var/lib/postgresql/data

@@ -6,6 +6,6 @@ metadata:
 data:
   01-create-databases.sql: |
     -- Base pour Gitea uniquement
-    CREATE DATABASE gitea;
-    CREATE USER gitea WITH ENCRYPTED PASSWORD 'G1t3aDbP4ss!2025';
-    GRANT ALL PRIVILEGES ON DATABASE gitea TO gitea; 
+    CREATE DATABASE ${GITEA_DB_NAME:-gitea};
+    CREATE USER ${GITEA_DB_USER:-gitea} WITH ENCRYPTED PASSWORD '${GITEA_DB_PASSWORD:-G1t3aDbP4ss!2025}';
+    GRANT ALL PRIVILEGES ON DATABASE ${GITEA_DB_NAME:-gitea} TO ${GITEA_DB_USER:-gitea}; 
