@@ -14,9 +14,13 @@ spec:
     targetRevision: "0.7.4"
     helm:
       values: |
+        configVersion: "0.7.4"
         logLevel: 2
-        # Service account sera créé automatiquement
-        # RBAC sera créé automatiquement
+        
+        # Configuration cert-manager
+        certManager:
+          namespace: cert-manager
+          serviceAccountName: cert-manager-webhook-ovh
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
