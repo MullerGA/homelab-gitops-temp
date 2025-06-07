@@ -14,7 +14,7 @@ spec:
     targetRevision: "0.7.4"
     helm:
       values: |
-        configVersion: "0.7.4"
+        configVersion: "0.0.1"
         logLevel: 2
         
         # Configuration cert-manager
