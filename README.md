@@ -6,17 +6,23 @@ Dépôt temporaire pour tester le workflow GitOps avec ArgoCD.
 
 ```
 homelab-gitops-temp/
-├── apps/                     # Applications déployées
-│   ├── gitea/               # Serveur Git local
-│   │   ├── deployment.yaml  # Gitea + PostgreSQL
-│   │   ├── service.yaml     # Services NodePort
-│   │   └── pvc.yaml        # Stockage Longhorn
-│   └── test-app/           # App de test
-│       └── nginx-test.yaml # Nginx simple
-└── infrastructure/         # Config ArgoCD
-    └── argocd-apps/        # Définitions des apps
-        ├── gitea-app.yaml  # App Gitea
-        └── test-app.yaml   # App test
+├── apps/                        # Applications déployées
+│   ├── gitea/                  # Serveur Git local
+│   │   ├── deployment.yaml     # Gitea (sans DB)
+│   │   ├── service.yaml        # Services NodePort
+│   │   └── pvc.yaml           # Stockage Longhorn
+│   └── test-app/              # App de test
+│       └── nginx-test.yaml    # Nginx simple
+└── infrastructure/            # Infrastructure partagée
+    ├── postgresql/            # Base PostgreSQL centralisée
+    │   ├── deployment.yaml    # PostgreSQL multi-DB
+    │   ├── service.yaml       # Service ClusterIP
+    │   ├── pvc.yaml          # Stockage 20Gi
+    │   └── configmap.yaml    # Init des bases
+    └── argocd-apps/          # Définitions ArgoCD
+        ├── postgresql-app.yaml # App PostgreSQL
+        ├── gitea-app.yaml     # App Gitea
+        └── test-app.yaml      # App test
 ```
 
 ## Accès aux services
@@ -64,6 +70,29 @@ Une fois Gitea déployé :
 
 ## Ressources
 
-- **Stockage** : PVC Longhorn (10Gi Gitea + 5Gi PostgreSQL)
+- **Stockage** : PVC Longhorn (8Gi Gitea + 10Gi PostgreSQL) - **Extensibles**
 - **Réseau** : NodePort (30200-30300)
-- **Namespaces** : `gitea`, `test` 
+- **Namespaces** : `gitea`, `test`, `infrastructure`
+- **Sécurité** : Secrets K8s pour tous les mots de passe
+
+## Architecture PostgreSQL Centralisée
+
+La base PostgreSQL dans le namespace `infrastructure` contient :
+- **gitea** : Base pour Gitea (credentials via secret K8s)
+
+**Connexion** : `postgresql.infrastructure.svc.cluster.local:5432`
+
+## Secrets K8s
+
+| Secret | Namespace | Contenu |
+|---------|-----------|---------|
+| `postgresql-admin` | infrastructure | Admin PostgreSQL |
+| `postgresql-gitea` | infrastructure, gitea | Credentials Gitea DB |
+
+## Extension de volumes
+
+Les PVC Longhorn sont **extensibles** :
+```bash
+# Exemple pour étendre Gitea à 20Gi
+kubectl patch pvc gitea-data -n gitea -p '{"spec":{"resources":{"requests":{"storage":"20Gi"}}}}'
+``` 
