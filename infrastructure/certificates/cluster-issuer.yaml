@@ -19,11 +19,14 @@ spec:
               secretKeyRef:
                 name: ovh-credentials
                 key: applicationKey
+                namespace: cert-manager
             applicationSecret:
               secretKeyRef:
                 name: ovh-credentials
                 key: applicationSecret
+                namespace: cert-manager
             consumerKey:
               secretKeyRef:
                 name: ovh-credentials
-                key: consumerKey 
+                key: consumerKey
+                namespace: cert-manager 
