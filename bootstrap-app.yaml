@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: test-app
+  name: bootstrap
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,16 +10,14 @@ spec:
   source:
     repoURL: https://github.com/MullerGA/homelab-gitops-temp
     targetRevision: HEAD
-    path: apps/test-app
+    path: infrastructure/argocd-apps
   destination:
     server: https://kubernetes.default.svc
-    namespace: test
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
     retry:
       limit: 3
       backoff:

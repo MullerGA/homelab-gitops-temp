@@ -40,7 +40,7 @@ homelab-gitops-temp/
 # Dans l'interface ArgoCD (http://192.168.1.22:30100)
 # Settings > Repositories > + CONNECT REPO
 # Type: git
-# URL: https://github.com/TON_USERNAME/homelab-gitops-temp
+# URL: https://github.com/MullerGA/homelab-gitops-temp
 ```
 
 ### 2. Déployer les applications

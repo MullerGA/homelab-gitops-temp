@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/TON_USERNAME/homelab-gitops-temp
+    repoURL: https://github.com/MullerGA/homelab-gitops-temp
     targetRevision: HEAD
     path: apps/gitea
   destination:
