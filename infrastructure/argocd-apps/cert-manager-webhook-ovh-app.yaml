@@ -21,6 +21,10 @@ spec:
         certManager:
           namespace: cert-manager
           serviceAccountName: cert-manager-webhook-ovh
+        
+        # RBAC permissions pour cert-manager
+        rbac:
+          create: true
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
