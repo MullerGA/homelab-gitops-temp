@@ -1,8 +1,9 @@
+kind: Service
 metadata:
-  name: pgadmin
+  name: pgadmin-service
   namespace: infrastructure
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: pgadmin
   ports:
