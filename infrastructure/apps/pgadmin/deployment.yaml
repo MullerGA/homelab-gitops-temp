@@ -1,10 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pgadmin
-  namespace: infrastructure
-  labels:
-    app: pgadmin
+  name: pgadmin-deployment
+  namespace: pgadmin
 spec:
   replicas: 1
   selector:
@@ -21,19 +19,29 @@ spec:
           envFrom:
             - secretRef:
                 name: pgadmin-secret
-          ports:
-            - containerPort: 80
           volumeMounts:
             - name: pgadmin-data
               mountPath: /var/lib/pgadmin
-          resources:
-            requests:
-              memory: "128Mi"
-              cpu: "100m"
-            limits:
-              memory: "256Mi"
-              cpu: "250m"
+            - name: pgadmin-servers-config
+              mountPath: /pgadmin4/servers.json
+              subPath: servers.json
       volumes:
         - name: pgadmin-data
           persistentVolumeClaim:
-            claimName: pgadmin-data 
+            claimName: pgadmin-pvc
+        - name: pgadmin-servers-config
+          configMap:
+            name: pgadmin-config
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pgadmin-pvc
+  namespace: pgadmin
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi 

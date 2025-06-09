@@ -10,6 +10,7 @@ spec:
       revision: HEAD
       directories:
       - path: infrastructure/apps/*
+      - path: infrastructure/system-ingress/*
   template:
     metadata:
       name: '{{path.basename}}'
@@ -22,8 +23,8 @@ spec:
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        # Le namespace est défini dans chaque manifeste YAML
-        namespace: infrastructure
+        # Le namespace est déduit dynamiquement du nom du dossier de l'app
+        namespace: '{{path.basename}}'
       syncPolicy:
         automated:
           prune: true
