@@ -12,10 +12,26 @@ spec:
       labels:
         app: gitea
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
+      initContainers:
+        - name: setup-gitea
+          image: alpine:3.18
+          command: ['sh', '-c']
+          args:
+            - |
+              set -e
+              if [ ! -f /pvc/config/app.ini ]; then
+                echo "Initializing Gitea config..."
+                mkdir -p /pvc/config
+                cp /config-ro/app.ini /pvc/config/app.ini
+              fi
+              echo "Initializing Gitea data directories and setting permissions..."
+              mkdir -p /pvc/data/log
+              chown -R 1000:1000 /pvc
+          volumeMounts:
+            - name: gitea-storage
+              mountPath: /pvc
+            - name: gitea-config-map
+              mountPath: /config-ro
       containers:
         - name: gitea
           image: docker.gitea.com/gitea:1.23.8-rootless
@@ -38,6 +54,9 @@ spec:
                 secretKeyRef:
                   name: gitea-secret
                   key: GITEA_DATABASE_PASSWORD
+          envFrom:
+            - secretRef:
+                name: gitea-secret
           resources:
             requests:
               cpu: "250m"
@@ -46,15 +65,16 @@ spec:
               cpu: "1"
               memory: "1Gi"
           volumeMounts:
-            - name: gitea-data
-              mountPath: /var/lib/gitea
-            - name: gitea-config
-              mountPath: /etc/gitea/app.ini
-              subPath: app.ini
+            - name: gitea-storage
+              subPath: data
+              mountPath: /data
+            - name: gitea-storage
+              subPath: config
+              mountPath: /etc/gitea
       volumes:
-        - name: gitea-data
+        - name: gitea-storage
           persistentVolumeClaim:
             claimName: gitea-data-pvc
-        - name: gitea-config
+        - name: gitea-config-map
           configMap:
             name: gitea-config 
