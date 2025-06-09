@@ -16,7 +16,7 @@ data:
     DO $$
     BEGIN
         IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = '${GITEA_DB_USER:-gitea}') THEN
-            CREATE USER ${GITEA_DB_USER:-gitea} WITH ENCRYPTED PASSWORD '${GITEA_DB_PASSWORD:-G1t3aDbP4ss!2025}';
+            CREATE USER ${GITEA_DB_USER:-gitea} WITH ENCRYPTED PASSWORD 'giteapassword';
         END IF;
     END
     $$;
