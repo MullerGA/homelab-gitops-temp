@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: homelab
-  namespace: gitops
+  namespace: argocd
 spec:
   description: "Projet pour les applications du Homelab"
   sourceRepos:
