@@ -48,6 +48,9 @@ spec:
           volumeMounts:
             - name: gitea-data
               mountPath: /var/lib/gitea
+            - name: gitea-data
+              mountPath: /etc/gitea
+              subPath: config
       volumes:
         - name: gitea-data
           persistentVolumeClaim:
