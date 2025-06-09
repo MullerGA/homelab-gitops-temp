@@ -3,6 +3,17 @@ kind: PersistentVolumeClaim
 metadata:
   name: gitea-data
   namespace: gitea
+  annotations:
+    # Empêcher la suppression accidentelle
+    "helm.sh/resource-policy": keep
+    "argocd.argoproj.io/sync-options": "Delete=false"
+    # Documentation
+    "description": "Volume persistant pour données Gitea - NE PAS SUPPRIMER"
+  labels:
+    app: gitea
+    component: storage
+    # Label de protection
+    "data.protection": "critical"
 spec:
   accessModes:
     - ReadWriteOnce
