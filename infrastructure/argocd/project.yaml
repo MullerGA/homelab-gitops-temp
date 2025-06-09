@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: homelab
+  namespace: gitops
+spec:
+  description: "Projet pour les applications du Homelab"
+  sourceRepos:
+    - '*' # Pour un homelab, on peut autoriser tous les repos. En prod, on lockerait ici.
+  destinations:
+    - namespace: '*' # Autorise le déploiement dans tous les namespaces.
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*' 

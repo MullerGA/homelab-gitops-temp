@@ -1,20 +1,7 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: pgadmin-ingress
-  namespace: infrastructure
-  annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
+traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
-    - host: pgadmin.k3s.greg-muller.com
+    - host: pgadmin.gmladata.fr
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: pgadmin
-                port:
-                  number: 80 
+          - path: / 

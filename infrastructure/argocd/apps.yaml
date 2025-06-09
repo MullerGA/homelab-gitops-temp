@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apps
+  namespace: gitops
+spec:
+  project: homelab
+  source:
+    repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
+    targetRevision: HEAD
+    path: infrastructure/apps
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: infrastructure # Namespace par défaut, mais chaque app peut surcharger
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true 
