@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: pgadmin-ingress
   namespace: pgadmin
-  annotations:
-    traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   ingressClassName: traefik
   rules:
