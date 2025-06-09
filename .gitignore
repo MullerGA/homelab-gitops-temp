@@ -15,4 +15,12 @@ Thumbs.db
 .env.local
 
 # Logs
-*.log 
+*.log
+
+# Node / NPM
+node_modules/
+npm-debug.log
+
+# Temporary files
+*.yaml
+scripts/ 

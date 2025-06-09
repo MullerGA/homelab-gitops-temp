@@ -8,9 +8,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/MullerGA/homelab-gitops-temp
+    repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
     targetRevision: HEAD
-    path: infrastructure/argocd-apps
+    path: infrastructure/argocd
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
