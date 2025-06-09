@@ -1,22 +1,33 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Application
+kind: ApplicationSet
 metadata:
   name: apps
   namespace: gitops
 spec:
-  project: homelab
-  source:
-    repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
-    targetRevision: HEAD
-    path: infrastructure/apps
-    directory:
-      recurse: true
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: infrastructure # Namespace par défaut, mais chaque app peut surcharger
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true 
+  generators:
+  - git:
+      repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
+      revision: HEAD
+      directories:
+      - path: infrastructure/apps/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      # Les applications générées (pg, pgadmin) seront des objets ArgoCD créés dans le namespace 'gitops'
+      namespace: gitops
+    spec:
+      project: homelab
+      source:
+        repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
+        targetRevision: HEAD
+        path: '{{path}}'
+      destination:
+        server: https://kubernetes.default.svc
+        # Le namespace de déploiement des ressources (ex: 'infrastructure')
+        # est défini dans chaque sous-application.
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+        - CreateNamespace=true 
