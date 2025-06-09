@@ -21,6 +21,8 @@ spec:
         repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
         targetRevision: HEAD
         path: '{{path}}'
+        kustomize:
+          buildOptions: "--enable-helm"
       destination:
         server: https://kubernetes.default.svc
         # Le namespace est déduit dynamiquement du nom du dossier de l'app
