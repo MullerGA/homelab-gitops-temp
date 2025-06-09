@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pgadmin
+  # Cet objet sera créé dans le namespace argocd par l'ApplicationSet racine
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: homelab
+  source:
+    # Pointe vers le dossier courant pour utiliser les manifestes Kustomize locaux
+    path: infrastructure/apps/pgadmin
+    repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    # Les ressources de pgAdmin (Deployment, Service, etc.) seront déployées ici
+    namespace: infrastructure
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true 

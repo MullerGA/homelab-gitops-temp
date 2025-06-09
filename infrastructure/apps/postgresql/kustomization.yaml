@@ -1,7 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+# On définit le namespace où toutes les ressources de ce Kustomization seront déployées.
+namespace: infrastructure
+
+helmCharts:
+- name: postgresql
+  repo: https://charts.bitnami.com/bitnami
+  version: "14.2.4"
+  releaseName: postgresql
+  # On applique nos configurations personnalisées au chart
+  valuesFile: values.yaml
+
+# On s'assure que le namespace "infrastructure" sera bien créé s'il n'existe pas.
 resources:
-  - deployment.yaml
-  - service.yaml
-  - pvc.yaml
-  - secret.yaml 
+- namespace.yaml 
