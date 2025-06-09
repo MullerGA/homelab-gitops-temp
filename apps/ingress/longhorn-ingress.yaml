@@ -5,12 +5,10 @@ metadata:
   namespace: longhorn-system
   annotations:
     traefik.ingress.kubernetes.io/router.tls: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
   - hosts:
     - longhorn.gmladata.fr
-    secretName: longhorn-tls
   rules:
   - host: longhorn.gmladata.fr
     http:

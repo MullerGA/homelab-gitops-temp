@@ -5,12 +5,10 @@ metadata:
   namespace: cattle-system
   annotations:
     traefik.ingress.kubernetes.io/router.tls: "true"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
   - hosts:
     - rancher.gmladata.fr
-    secretName: rancher-tls
   rules:
   - host: rancher.gmladata.fr
     http:
