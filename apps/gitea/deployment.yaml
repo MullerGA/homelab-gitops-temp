@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: gitea
-        image: gitea/gitea:1.21-rootless
+        image: gitea/gitea:1.23.8-rootless
         ports:
         - containerPort: 3000
           name: http
@@ -56,11 +56,11 @@ spec:
           mountPath: /data
         resources:
           requests:
-            memory: "256Mi"
-            cpu: "100m"
+            memory: "384Mi"
+            cpu: "200m"
           limits:
-            memory: "512Mi"
-            cpu: "500m"
+            memory: "768Mi"
+            cpu: "750m"
       volumes:
       - name: gitea-data
         persistentVolumeClaim:
