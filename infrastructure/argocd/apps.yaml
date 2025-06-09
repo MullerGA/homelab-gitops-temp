@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: apps
-  namespace: gitops
+  namespace: argocd
 spec:
   generators:
   - git:
@@ -13,8 +13,8 @@ spec:
   template:
     metadata:
       name: '{{path.basename}}'
-      # Les applications générées (pg, pgadmin) seront des objets ArgoCD créés dans le namespace 'gitops'
-      namespace: gitops
+      # Les applications générées (pg, pgadmin) seront des objets ArgoCD créés dans le namespace 'argocd'
+      namespace: argocd
     spec:
       project: homelab
       source:
