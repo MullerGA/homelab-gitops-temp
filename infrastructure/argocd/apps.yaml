@@ -8,12 +8,10 @@ spec:
   - git:
       repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
       revision: HEAD
-      # On cherche tous les kustomization.yaml dans les sous-dossiers
       directories:
       - path: infrastructure/apps/*
   template:
     metadata:
-      # Le nom de l'application sera le nom du dossier (ex: postgresql)
       name: '{{path.basename}}'
       namespace: argocd
     spec:
@@ -21,12 +19,11 @@ spec:
       source:
         repoURL: https://github.com/MullerGA/homelab-gitops-temp.git
         targetRevision: HEAD
-        # La source de chaque application est son propre dossier
         path: '{{path}}'
       destination:
         server: https://kubernetes.default.svc
-        # Le namespace est géré par chaque kustomization.yaml, l'application ArgoCD vit dans argocd
-        namespace: argocd
+        # Le namespace est défini dans chaque manifeste YAML
+        namespace: infrastructure
       syncPolicy:
         automated:
           prune: true
